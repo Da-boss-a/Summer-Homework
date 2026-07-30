@@ -1,0 +1,54 @@
+//稀疏矩阵压缩存储问题
+#include <iostream>
+#include <vector>
+#include <map>
+using namespace std;
+int main(){
+	ios::sync_with_stdio(false);
+    cin.tie(0);
+    int n,m,t;
+    cin>>n>>m>>t;
+    vector<map<int,int>> mat(n);
+    for(int i=0;i<m;i++){
+    	int r,c,v;
+    	cin>>r>>c>>v;
+    	mat[r][c]=v;
+	}
+	for(int i=0;i<t;i++){
+		char ch;
+		cin>>ch;
+		
+		if(ch=='Q'){
+			int r,c;
+			cin>>r>>c;
+			auto &row=mat[r];
+			auto it=row.find(c);
+			if(it!=row.end()){
+				cout<<it->second<<endl;
+			}else{
+				cout<<"0"<<endl;
+			}
+		}else if(ch=='L'){
+				int r;
+			cin>>r;
+			auto &row=mat[r];
+			bool flag=true;
+			
+			for(auto& p:row){
+				if(flag!=true){
+				cout<<" ";
+			}
+				if(p.second!=0){
+					cout<<p.second;
+					flag=false;
+				}
+				
+			}
+			if(flag==true){
+				cout<<"NONE";
+			}
+			cout<<endl;
+		}
+	}
+	return 0;
+}
