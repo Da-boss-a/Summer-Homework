@@ -1,0 +1,35 @@
+#include <iostream>
+
+using namespace std;
+const int N = 1000010;
+int q[N], m[N], a[N], hh = 1, tt = 0;
+
+int main()
+{
+    int m, k, x;
+    cin >> m >> k;
+    for (int i = 0; i < m; i ++ ) cin >> x, a[i] = x;
+    
+    for (int i = 0; i < m; i ++ )
+    {
+        if (tt >= hh && i - k + 1 > q[hh]) hh ++ ;
+        while (a[q[tt]] >= a[i] && hh <= tt)   tt -- ;
+        
+        q[ ++ tt] = i;
+        
+        if(i >= k - 1) cout << a[q[hh]] << " ";
+    }
+    cout << endl;
+    
+    hh = 1, tt = 0;
+    for (int i = 0; i < m; i ++ )
+    {
+        if (tt >= hh && i - k + 1 > q[hh]) hh ++ ;
+        while (a[q[tt]] <= a[i] && hh <= tt)   tt -- ;
+        
+        q[ ++ tt] = i;
+        
+        if(i >= k - 1) cout << a[q[hh]] << " ";
+    }
+    return 0;
+}
