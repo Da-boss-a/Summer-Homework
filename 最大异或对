@@ -1,0 +1,54 @@
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+int n;
+const int N = 100010, M = 3100010;
+int son[M][2], idx, q[N];
+
+void insert(int x)
+{
+    int p = 0;
+    for(int i = 30; i >= 0; i -- )
+    {
+        int u = x >> i & 1;
+        if(!son[p][u]) son[p][u] = ++ idx;
+        p = son[p][u];
+    }
+}
+
+int calculate(int x)
+{
+    int q = 0, res = 0;
+    for (int i = 30; i >= 0; i -- )
+    {
+        int s = x >> i & 1;
+        if (son[q][!s])//如果存在相同二进制位数上有不同数
+        {
+            res += 1 << i;
+            q = son[q][!s];
+        }
+        else q = son[q][s];
+    }
+    return res;
+}
+
+int main()
+{
+    cin >> n;
+    
+    for (int i = 0; i < n; i ++ )
+    {
+        int x;
+        cin >> x;
+        insert(x);
+        q[i] = x;
+    }
+    
+    int max_q = 0;
+    for(int i = 0; i < n; i++) max_q = max(max_q, calculate(q[i]));
+    
+    cout << max_q;
+    return 0; 
+}
