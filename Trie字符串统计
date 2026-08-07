@@ -1,0 +1,45 @@
+#include <iostream>
+
+using namespace std;
+
+const int N = 100010;
+int son[N][26], cnt[N], idx;  
+
+void insert(string x)
+{
+    int p = 0;
+    for(char u: x){
+        int t = u - 'a';
+        if(!son[p][t]) son[p][t] = ++ idx;//p代表父节点idx
+        p = son[p][t];//使当前节点成为父节点，继续向下延申
+    }
+    cnt[p] ++ ;//p是当前节点下标，记录++
+}
+
+int query(string x)
+{
+    int p = 0;
+    for(char u: x){
+        int t = u - 'a';
+        if(!son[p][t]) return 0;
+        p = son[p][t];
+    }
+    return cnt[p];
+}
+
+int main()
+{
+    int n;
+    cin >> n;
+    
+    while (n -- )
+    {
+        string op, x;
+        cin >> op;
+        
+        if (op == "I") cin >> x, insert(x);
+        else cin >> x, cout << query(x) <<endl;
+        
+    }
+    return 0;
+}
